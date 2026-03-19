@@ -4,16 +4,17 @@ La base de datos de Arrivo se asienta sobre **Supabase (PostgreSQL)**, optimizad
 
 ## 📊 Entidades y Relaciones
 
-### 1. Tabla: `profiles`
-Almacena la información institucional y legal de cada usuario tras completar el Wizard.
-- `id`: UUID (vinculado a `auth.users`).
-- `full_name`: TEXT (Nombre completo pasaporte).
-- `birth_date`: DATE.
-- `country_origin`: TEXT.
-- `nie`: TEXT (Identificación española).
-- `passport_number`: TEXT.
-- `phone`: TEXT.
-- `address`: TEXT.
+### 2.2 Tabla: `perfiles_usuario` (Perfil Extendido y Tracker)
+Almacena el perfil del inmigrante o interesado, ligado a un ID de Supabase Auth.
+*   **Campos Relevantes:**
+    *   `id` (UUID - PK y FK hacia `auth.users`)
+    *   `nombre_completo`, `nie`, `telefono`, `pais_origen`, `fecha_llegada`
+    *   `meses_en_espana` (INT), `tiene_antecedentes` (BOOLEAN)
+    *   `ahorros_eur` (NUMERIC)
+*   **Tracking Legal / Padrón (Módulo Fase 2):**
+    *   `fecha_solicitud_padron` (DATE): Marca el inicio del periodo de silencio administrativo (90 días).
+    *   `notificacion_90_dias_enviada` (BOOLEAN): Control para evitar SPAM del script Cron en `/api/cron/check-padron`.
+*   Relacionado con `tramites_activos` / seguimiento.
 - `nie_file_url`: TEXT (Referencia segura en Storage).
 - `passport_file_url`: TEXT (Referencia segura en Storage).
 - `updated_at`: TIMESTAMP WITH TIME ZONE.

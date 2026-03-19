@@ -7,17 +7,25 @@ Arrivo es un SaaS LegalTech diseñado específicamente para trámites de extranj
 ### 1. Capa de Presentación (Frontend)
 - **Framework**: Next.js 15 (App Router).
 - **Diseño**: Tailwind CSS con tipografía **Outfit** y **Inter** para un look gubernamental/premium.
-- **Componentes**: React Server Components (RSC) para mayor SEO y Client Components para interactividad (Wizard, Alertas).
-- **Gestión de Estado**: Zustand para control de autenticación y flujo de pasos del formulario legal.
+- **Componentes**: React Server Components (RSC) para mayor SEO y Client| Capa | Tecnologías | Propósito |
+|---------|------------|------------|
+| **Frontend UI** | Next.js 15 (App Router), React, TailwindCSS, Lucide Icons | Interfaz de usuario rápida, accesible y responsiva. |
+| **Generación de Documentos** | jsPDF | (Fase 2) Creación de PDFs legales dinámicos (Empadronamiento, Silencio Positivo) en el cliente. |
+| **Backend & Autenticación** | Supabase (Auth, RLS, Database) | Gestión de usuarios, perfiles, catálogo de trámites y expedientes en PostgreSQL. |
+| **Tareas Programadas** | Next.js Route Handlers (`/api/cron/*`) | Motor de revisión (ej. Padrón tracker, alertas de 90 días). |
+| **Motor Semántico & NLP** | Google Gemini (text-embedding-004), Scraping Script Node.js | Ingesta del BOE y en Fase 4 vectorización semántica de leyes. |
 
-### 2. Capa de Servicios y Logística (IA)
-- **Motor de Ingesta (Scraper)**: Node.js (scripts/scraper_boe.js). Lee el RSS oficial del BOE.
-- **Motor Semántico**: Google Gemini (**text-embedding-004**). Convierte leyes complejas en vectores de 768 dimensiones.
-- **Lógica de Autenticación**: Supabase Auth (Magic Link y Passwordless).
+## 2. Diagrama de Módulos (Core Features)
 
-### 3. Capa de Persistencia (Base de Datos)
-- **PostgreSQL (Supabase)**: Almacenamiento relacional de perfiles y expedientes.
-- **pgvector**: Almacenamiento de embeddings legales para permitir búsquedas semánticas (RAG).
+1.  **Onboarding & Perfil (Wizard):**
+    *   Formulario por pasos (País, Llegada, Ahorros, Estudios).
+    *   Guarda los datos en `perfiles_usuario` para alimentar el semáforo de viabilidad.
+2.  **Dashboard "Arraigo Pro" / "Aterriza en España":**
+    *   **Mis Expedientes:** Visualización de trámites activos y completados (con semáforos de progreso y fases).
+    *   **Módulo Inteligente de Empadronamiento:** Asistente conversacional para determinar el Escenario de Padrón (Inquilino vs Infravivienda) y *Generación local de PDF de solicitud oficial*.
+    *   **Cronómetro de Derechos (Tracker Padrón):** Gestión reactiva del Silencio Administrativo Positivo (90 días) para reclamar empadronamientos no contestados.
+    *   **Vigilancia Legal (Alertas BOE):** Sincronización diaria con RSS "Extranjería" del BOE, filtrado por Machine Learning (Fase 1 scraper_boe).
+    *   **Bóveda IA:** Preparación de Fase 4 (Chat Semántico para discusión con normativa vigente).icas (RAG).
 - **Supabase Storage**: Almacenamiento seguro de copias de NIE/Pasaporte mediante políticas RLS.
 
 ## 🛡️ Flujo de Seguridad y Privacidad

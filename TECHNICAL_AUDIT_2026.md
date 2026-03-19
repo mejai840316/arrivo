@@ -14,6 +14,20 @@ Este documento resume los hitos técnicos y el estado de salud del proyecto Arri
 - **Tecnología**: Google AI (**text-embedding-004**) y Supabase **pgvector**.
 - **Resultado**: El sistema ya es capaz de "leer" el BOE periódicamente y transformar las leyes en conocimiento consultable.
 
+*   **Prioridad:** Crítica.
+*   **Resolución:** [PARCIAL] Configuración implementada en Vercel y GitHub (`.env.local`). Aún no hay dominios conectados.
+
+---
+
+## 4. Auditoría de Resoluciones UI/UX y Routing (Sesión Reciente)
+
+1.  **Resolución de Errores 404 Dashboard:** Las rutas `/dashboard/expedientes`, `/dashboard/proced/[id]`, `/dashboard/alertas`, y `/dashboard/chat` estaban huérfanas o vacías. Se crearon e integraron todas con diseño "Arraigo Pro" y listas interactivas (incluyendo `use client` para eliminar simuladamente con botones de papelera).
+2.  **Auditoría de Políticas de Supabase (`ERROR: 42710`)**: Se identificó que múltiples ejecuciones del esquema manual en el SQL editor de Supabase chocaban por políticas previas. Se resolvió usando la convención `DROP POLICY IF EXISTS ...` antes de cada re-creación, permitiendo testing iterativo en Supabase.
+3.  **Validación de jsPDF (Fase 2):** Se evaluaron herramientas para crear PDFs locales sin saturar servidores. `jsPDF` cumple la funcionalidad técnica para generar instancias y Padrón Silencio Positivo instantáneamente, con inyección dinámica del Input del usuario.
+
+## 5. Próximos pasos (Hoja de Ruta Inmediata)
+1. Integrar **Pasarela Stripe** (Suscripción Padrón/Silencio, "Pack Aterriza") - Fase 3.
+
 ### Hito 3: Perfil Institucional (Wizard)
 - **Logro**: Flujo de registro y perfilado de 3 pasos (Datos -> Legal -> Ubicación).
 - **Tecnología**: Zustand para persistencia de estado temporal y Supabase Auth.
