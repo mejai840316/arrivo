@@ -122,9 +122,9 @@ export default async function DashboardPage() {
               <p className="text-xs text-blue-100/70 leading-relaxed mb-4 font-medium">
                 Consulta cualquier duda sobre tu expediente basándote en la legislación actual del BOE del día de hoy.
               </p>
-              <button className="w-full py-2.5 bg-white text-blue-900 rounded-lg text-xs font-extrabold uppercase tracking-widest hover:bg-blue-50 transition-colors font-outfit">
+              <Link href="/dashboard/chat" className="w-full flex justify-center py-2.5 bg-white text-blue-900 rounded-lg text-xs font-extrabold uppercase tracking-widest hover:bg-blue-50 transition-colors font-outfit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 Abrir Chat Legal
-              </button>
+              </Link>
            </div>
         </div>
       </div>

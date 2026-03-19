@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Bell, ExternalLink, Calendar, ShieldCheck } from 'lucide-react';
 
 const MOCK_ALERTS = [
@@ -65,9 +66,9 @@ export const LegalAlerts = () => {
       </div>
       
       <div className="p-3 bg-slate-50 text-center border-t border-slate-200">
-        <button className="text-[11px] font-bold text-blue-600 hover:underline">
+        <Link href="/dashboard/alertas" className="text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 rounded-sm">
           Ver todas las actualizaciones
-        </button>
+        </Link>
       </div>
     </div>
   );
