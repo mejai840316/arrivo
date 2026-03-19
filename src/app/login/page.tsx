@@ -6,29 +6,38 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
 
+const supabase = createClient();
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message);
+      if (signInError) {
+        setError(signInError.message);
+        setLoading(false);
+      } else {
+        router.push('/dashboard');
+        // Aseguramos que el loading se quite si por lo que sea no redirige rápido
+        setTimeout(() => setLoading(false), 3000);
+      }
+    } catch (err: any) {
+      console.error('Login Error:', err);
+      setError('Error de conexión: ' + (err.message || 'Desconocido'));
       setLoading(false);
-    } else {
-      router.push('/dashboard');
     }
   };
 

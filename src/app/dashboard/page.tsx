@@ -3,27 +3,30 @@ import ProfileWizard from '@/components/dashboard/ProfileWizard';
 import { LegalAlerts } from '@/components/dashboard/LegalAlerts';
 import { PROCEDURES_MOCK } from '@/lib/mocks';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) return null;
+  if (!user) {
+    redirect('/login');
+  }
 
-  const { data: profile, error } = await supabase
+  const { data: profile } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
-    .maybeSingle(); // Usamos maybeSingle para que no dé error si no existe
+    .maybeSingle();
 
   const isProfileComplete = profile?.nie && profile?.phone;
 
   if (!profile || !isProfileComplete) {
     return (
-      <div className="max-w-4xl mx-auto py-12">
+      <div className="max-w-4xl mx-auto py-12 px-4">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-extrabold text-blue-900 mb-2">Bienvenido a Arrivo</h1>
-          <p className="text-gray-500 max-w-md mx-auto text-sm">
+          <h1 className="text-3xl font-extrabold text-blue-900 mb-2 font-outfit">Bienvenido a Arrivo</h1>
+          <p className="text-slate-500 max-w-md mx-auto text-sm font-medium">
             Antes de iniciar tus trámites de extranjería, necesitamos que completes tu perfil institucional para garantizar la legalidad de tus gestiones.
           </p>
         </div>
@@ -33,10 +36,10 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="space-y-10 py-6 max-w-[1400px] mx-auto">
+    <div className="space-y-10 py-6 max-w-[1400px] mx-auto px-4">
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-100">
         <div>
-          <h1 className="text-3xl font-extrabold text-blue-900">Panel de Control</h1>
+          <h1 className="text-3xl font-extrabold text-blue-900 font-outfit">Panel de Control</h1>
           <p className="text-gray-500 mt-1 uppercase text-[10px] tracking-[0.2em] font-bold">
             Expediente de {profile?.full_name || user.email} — Situación Administrativa Actualizada
           </p>
@@ -85,7 +88,7 @@ export default async function DashboardPage() {
           </div>
           
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden divide-y divide-gray-50 shadow-sm">
-            {PROCEDURES_MOCK.slice(0, 3).map((procedure) => (
+            {PROCEDURES_MOCK.slice(0, 3).map((procedure: any) => (
                <div key={procedure.id} className="p-6 hover:bg-slate-50 transition-colors flex items-center justify-between group">
                   <div>
                     <h3 className="font-bold text-gray-900 group-hover:text-blue-900 transition-colors">{procedure.title}</h3>
@@ -114,11 +117,11 @@ export default async function DashboardPage() {
            
            {/* Direct AI Help Box */}
            <div className="p-6 bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl text-white shadow-xl shadow-blue-900/10">
-              <h3 className="font-bold mb-2">Asistente Arrivo IA</h3>
-              <p className="text-xs text-blue-100/70 leading-relaxed mb-4">
+              <h3 className="font-bold mb-2 font-outfit">Asistente Arrivo IA</h3>
+              <p className="text-xs text-blue-100/70 leading-relaxed mb-4 font-medium">
                 Consulta cualquier duda sobre tu expediente basándote en la legislación actual del BOE del día de hoy.
               </p>
-              <button className="w-full py-2.5 bg-white text-blue-900 rounded-lg text-xs font-extrabold uppercase tracking-widest hover:bg-blue-50 transition-colors">
+              <button className="w-full py-2.5 bg-white text-blue-900 rounded-lg text-xs font-extrabold uppercase tracking-widest hover:bg-blue-50 transition-colors font-outfit">
                 Abrir Chat Legal
               </button>
            </div>
@@ -127,7 +130,7 @@ export default async function DashboardPage() {
 
       {/* Legal Disclaimer */}
       <footer className="mt-15 p-6 rounded-2xl bg-slate-50 border border-slate-100">
-        <p className="text-[10px] text-slate-400 text-center leading-loose max-w-4xl mx-auto">
+        <p className="text-[10px] text-slate-400 text-center leading-loose max-w-4xl mx-auto font-medium">
            AVISO LEGAL: ESTA PLATAFORMA PROPORCIONA HERRAMIENTAS DE AUTOGESTIÓN Y ORIENTACIÓN LEGAL BASADA EN DATOS PÚBLICOS. NO CONSTITUYE UN SERVICIO DE ASESORÍA JURÍDICA PERSONALIZADA. ARRIVO OPERA SEGÚN LOS PROTOCOLOS DE LA DIRECCIÓN GENERAL DE MIGRACIONES Y EL REGLAMENTO DE EXTRANJERÍA (RD 557/2011). LA SEGURIDAD DE SUS DATOS ESTÁ GARANTIZADA MEDIANTE CIFRADO AES-256 Y CUMPLIMIENTO ESTRICTO DE LA RGPD.
         </p>
       </footer>
