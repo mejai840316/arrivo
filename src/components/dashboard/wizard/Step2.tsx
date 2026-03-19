@@ -8,9 +8,12 @@ import { useProfileWizardStore } from '@/store/useProfileWizardStore';
 import { Shield, Upload, FileCheck } from 'lucide-react';
 
 const step2Schema = z.object({
-  nie: z.string().min(9, 'NIE Inválido (Ej: Y1234567Z)'),
-  passport: z.string().min(6, 'Número de pasaporte inválido'),
+  nie: z.string().refine(val => !val || val.length >= 9, 'NIE Inválido (Ej: Y1234567Z)'),
+  passport: z.string().refine(val => !val || val.length >= 6, 'Número de pasaporte inválido'),
   expiryDate: z.string().min(1, 'Fecha de caducidad requerida'),
+}).refine(data => data.nie || data.passport, {
+  message: 'Debes introducir al menos tu NIE o tu Pasaporte',
+  path: ['passport']
 });
 
 type Step2Data = z.infer<typeof step2Schema>;
@@ -43,20 +46,20 @@ const Step2 = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">NIE / TIE</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">NIE / TIE (Opcional)</label>
           <input
             {...register('nie')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all"
-            placeholder="Ej: Y1234567Z"
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all cursor-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2"
+            placeholder="Ej: Y1234567Z (Si lo tienes)"
           />
           {errors.nie && <p className="text-red-500 text-xs font-medium">{errors.nie.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Número de Pasaporte</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Número de Pasaporte (Opcional si usas NIE)</label>
           <input
             {...register('passport')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all"
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all cursor-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2"
             placeholder="Ej: PA123456"
           />
           {errors.passport && <p className="text-red-500 text-xs font-medium">{errors.passport.message}</p>}
@@ -67,7 +70,7 @@ const Step2 = () => {
           <input
             type="date"
             {...register('expiryDate')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all"
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2"
           />
           {errors.expiryDate && <p className="text-red-500 text-xs font-medium">{errors.expiryDate.message}</p>}
         </div>

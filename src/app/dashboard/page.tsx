@@ -20,7 +20,7 @@ export default async function DashboardPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  const isProfileComplete = profile?.nie && profile?.phone;
+  const isProfileComplete = (profile?.nie || profile?.passport_number) && profile?.phone;
 
   if (!profile || !isProfileComplete) {
     return (
