@@ -10,15 +10,15 @@ export default async function DashboardPage() {
 
   if (!user) return null;
 
-  const { data: profile } = await supabase
+  const { data: profile, error } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
-    .single();
+    .maybeSingle(); // Usamos maybeSingle para que no dé error si no existe
 
-  const isProfileComplete = profile && profile.nie && profile.phone;
+  const isProfileComplete = profile?.nie && profile?.phone;
 
-  if (!isProfileComplete) {
+  if (!profile || !isProfileComplete) {
     return (
       <div className="max-w-4xl mx-auto py-12">
         <div className="text-center mb-10">
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-3xl font-extrabold text-blue-900">Panel de Control</h1>
           <p className="text-gray-500 mt-1 uppercase text-[10px] tracking-[0.2em] font-bold">
-            Expediente de {profile.full_name} — Situación Administrativa Actualizada
+            Expediente de {profile?.full_name || user.email} — Situación Administrativa Actualizada
           </p>
         </div>
         <div className="flex gap-3">
