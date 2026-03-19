@@ -4,6 +4,7 @@ import { LegalAlerts } from '@/components/dashboard/LegalAlerts';
 import { PROCEDURES_MOCK } from '@/lib/mocks';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import DashboardTabs from '@/components/dashboard/DashboardTabs';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -54,10 +55,11 @@ export default async function DashboardPage() {
         </div>
       </header>
 
-      {/* Stats / Status Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-blue-600">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Expedientes Activos</p>
+      <DashboardTabs>
+        {/* Stats / Status Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-blue-600">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Expedientes Activos</p>
           <div className="flex items-baseline gap-2">
             <p className="text-3xl font-bold text-gray-900">02</p>
             <span className="text-xs text-blue-600 font-medium tracking-tight">En curso</span>
@@ -127,6 +129,7 @@ export default async function DashboardPage() {
            </div>
         </div>
       </div>
+      </DashboardTabs>
 
       {/* Legal Disclaimer */}
       <footer className="mt-15 p-6 rounded-2xl bg-slate-50 border border-slate-100">
