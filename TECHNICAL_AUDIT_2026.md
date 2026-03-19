@@ -23,7 +23,7 @@ Este documento resume los hitos técnicos y el estado de salud del proyecto Arri
 
 | Módulo | Estado | Salud | Observaciones |
 | :--- | :--- | :--- | :--- |
-| Auth & RLS | ✅ Operativo | 100% | Políticas de seguridad configuradas. |
+| Auth & RLS | ✅ Operativo | 100% | Sistemas de Login y Registro integrados con Look Institucional. |
 | DB Schemas | ✅ Estable | 95% | Falta tabla histórica de cambios legales. |
 | AI Motor | ⚠️ Pruebas | 80% | Requiere ajuste de filtros semánticos. |
 | Storage | ✅ Configurado | 100% | Cubo `user_documents` listo con RLS. |

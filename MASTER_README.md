@@ -10,7 +10,7 @@ Arrivo es una plataforma moderna diseñada para simplificar y automatizar los tr
 - **Estado**: Zustand (Auth & Wizard)
 
 ## 📁 Estructura del Proyecto
-- `/src/app`: Rutas principales y Dashboard.
+- `/src/app`: Rutas principales (Landing, Login, Registro) y Dashboard.
 - `/src/components`: UI modular (ProfileWizard, LegalAlerts, AuthForms).
 - `/src/lib/supabase`: Configuración de clientes (Client/Server).
 - `/scripts`: Automatizaciones (Scraper del BOE con vectorización).
