@@ -4,10 +4,61 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Loader2, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 const supabase = createClient();
 
+// ── Campo de contraseña con toggle mostrar/ocultar ────────────────────────────
+function PasswordField({
+  value,
+  onChange,
+  placeholder = '••••••••',
+  id = 'password',
+  label = 'Contraseña',
+  autoComplete = 'current-password',
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  id?: string;
+  label?: string;
+  autoComplete?: string;
+}) {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-semibold text-slate-700 mb-1">
+        {label}
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Lock className="h-5 w-5 text-slate-400" />
+        </div>
+        <input
+          id={id}
+          name={id}
+          type={show ? 'text' : 'password'}
+          autoComplete={autoComplete}
+          required
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="block w-full pl-10 pr-12 py-3 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 sm:text-sm transition-all text-slate-900"
+          placeholder={placeholder}
+        />
+        <button
+          type="button"
+          onClick={() => setShow((s) => !s)}
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-blue-900 transition-colors"
+          aria-label={show ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+        >
+          {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Página de Login ───────────────────────────────────────────────────────────
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +82,6 @@ export default function LoginPage() {
         setLoading(false);
       } else {
         router.push('/dashboard');
-        // Aseguramos que el loading se quite si por lo que sea no redirige rápido
         setTimeout(() => setLoading(false), 3000);
       }
     } catch (err: any) {
@@ -66,7 +116,8 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
-            
+
+            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1">
                 Correo Electrónico
@@ -89,28 +140,15 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-1">
-                Contraseña
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 sm:text-sm transition-all text-slate-900"
-                  placeholder="••••••••"
-                />
-              </div>
-            </div>
+            {/* Contraseña con icono ver/ocultar */}
+            <PasswordField
+              id="password"
+              label="Contraseña"
+              value={password}
+              onChange={setPassword}
+            />
 
+            {/* Recordarme + ¿Olvidaste? */}
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -123,7 +161,6 @@ export default function LoginPage() {
                   Recordarme
                 </label>
               </div>
-
               <div className="text-sm">
                 <a href="#" className="font-semibold text-blue-800 hover:text-blue-700">
                   ¿Olvidaste tu contraseña?
@@ -131,6 +168,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Botón submit */}
             <div>
               <button
                 type="submit"
