@@ -20,24 +20,23 @@ export default async function DashboardPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  const isProfileComplete = (profile?.nie || profile?.passport_number) && profile?.phone;
-
-  if (!profile || !isProfileComplete) {
-    return (
-      <div className="max-w-4xl mx-auto py-12 px-4">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-extrabold text-blue-900 mb-2 font-outfit">Bienvenido a Arrivo</h1>
-          <p className="text-slate-500 max-w-md mx-auto text-sm font-medium">
-            Antes de iniciar tus trámites de extranjería, necesitamos que completes tu perfil institucional para garantizar la legalidad de tus gestiones.
-          </p>
-        </div>
-        <ProfileWizard />
-      </div>
-    );
-  }
+  const isProfileComplete = Boolean((profile?.nie || profile?.passport_number) && profile?.phone);
 
   return (
     <div className="space-y-10 py-6 max-w-[1400px] mx-auto px-4">
+      {/* Banner de perfil incompleto */}
+      {!isProfileComplete && (
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex items-start gap-3">
+          <div className="p-2 bg-blue-100 rounded-full text-blue-900 mt-1">
+             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <h3 className="font-bold text-blue-900 text-sm">Completa tu Perfil Institucional</h3>
+            <p className="text-xs text-blue-800/80 mt-1 mb-3">La información de tu perfil (NIE/Pasaporte y dirección) es obligatoria para iniciar cualquier trámite oficial.</p>
+          </div>
+        </div>
+      )}
+
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-100">
         <div>
           <h1 className="text-3xl font-extrabold text-blue-900 font-outfit">Panel de Control</h1>
@@ -55,7 +54,7 @@ export default async function DashboardPage() {
         </div>
       </header>
 
-      <DashboardTabs>
+      <DashboardTabs isProfileComplete={isProfileComplete}>
         {/* Stats / Status Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-blue-600">
