@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Globe2, DollarSign, ArrowRight, Calculator, ExternalLink, CheckCircle2, Circle, AlertTriangle, Plane } from 'lucide-react';
+import { Globe2, DollarSign, ArrowRight, Calculator, ExternalLink, CheckCircle2, Circle, AlertTriangle, Plane, Calendar } from 'lucide-react';
 
 // ─── DATOS ────────────────────────────────────────────────────────────────────
 
@@ -58,12 +58,12 @@ const CHECKLIST_PRE_SALIDA = [
 
 export default function InternationalMode() {
   const [moneda, setMoneda] = useState<string>('COP');
-  const [ahorros, setAhorros] = useState<string>('');
+  const [ahorros, setAhorros] = useState<number | string>('');
   const [checklist, setChecklist] = useState<Set<string>>(new Set());
   const [paisFiltro, setPaisFiltro] = useState<string>('Colombia');
 
   const tasa = TASAS_CAMBIO[moneda];
-  const ahorrosNum = parseFloat(ahorros.replace(/,/g, '')) || 0;
+  const ahorrosNum = parseFloat(ahorros.toString().replace(/,/g, '')) || 0;
   const ahorrosEur = tasa ? ahorrosNum / tasa.porEur : 0;
   const mesesCubiertos = ahorrosEur / IPREM_MENSUAL_EUR;
   const cumpleIPREM = ahorrosEur >= IPREM_MENSUAL_EUR;
@@ -117,34 +117,27 @@ export default function InternationalMode() {
             </div>
           </div>
           <div className="p-6 space-y-5">
-            {/* Selector moneda */}
             <div>
-              <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block mb-2">Tu moneda local</label>
-              <select
-                value={moneda}
-                onChange={(e) => setMoneda(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-900/20"
-              >
-                {Object.entries(TASAS_CAMBIO).map(([code, data]) => (
-                  <option key={code} value={code}>{data.pais} — {data.nombre} ({code})</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Input ahorros */}
-            <div>
-              <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block mb-2">
-                Mis ahorros en {tasa?.simbolo}
+              <label className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                Tus ahorros actuales
               </label>
-              <div className="relative">
-                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <div className="flex gap-4">
                 <input
                   type="number"
-                  value={ahorros}
-                  onChange={(e) => setAhorros(e.target.value)}
-                  placeholder="Ej: 12000000"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-900/20"
+                  value={ahorros || ''}
+                  onChange={(e) => setAhorros(e.target.value ? Number(e.target.value) : 0)}
+                  className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus-visible:outline-none transition-all text-lg font-bold"
+                  placeholder="Ej: 50000"
                 />
+                <select
+                  value={moneda}
+                  onChange={(e) => setMoneda(e.target.value)}
+                  className="w-fit px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus-visible:outline-none transition-all"
+                >
+                  {Object.entries(TASAS_CAMBIO).map(([code, data]) => (
+                    <option key={code} value={code}>{data.simbolo} {data.nombre}</option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -161,26 +154,27 @@ export default function InternationalMode() {
                   </span>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-xs text-slate-500">Tus ahorros equivalen a</span>
-                    <span className="font-extrabold text-gray-900">{ahorrosEur.toFixed(0)} €</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-xs text-slate-500">IPREM requerido (100%)</span>
-                    <span className="font-bold text-slate-600">{IPREM_MENSUAL_EUR} €/mes</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-xs text-slate-500">Meses que puedes cubrir</span>
-                    <span className={`font-extrabold ${mesesCubiertos >= 12 ? 'text-emerald-600' : mesesCubiertos >= 6 ? 'text-amber-600' : 'text-red-600'}`}>
-                      {mesesCubiertos.toFixed(1)} meses
+                  <div className="p-4 bg-white rounded-xl border border-slate-100 flex items-center justify-between">
+                    <span className="text-sm font-bold text-slate-600">Equivalente en Euros:</span>
+                    <span className="text-2xl font-black text-blue-900">
+                      {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(ahorrosEur)}
                     </span>
                   </div>
-                  {!cumpleIPREM && (
-                    <p className="text-xs text-amber-700 mt-3 font-medium bg-amber-100 rounded-xl px-3 py-2">
-                      Te faltan {(IPREM_MENSUAL_EUR - ahorrosEur).toFixed(0)} € para alcanzar el mínimo mensual requerido para el visado de estudios.
-                    </p>
-                  )}
+                  <p className="text-sm text-slate-500">
+                    Necesitas demostrar el 100% del IPREM ({new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(IPREM_MENSUAL_EUR)}/mes) para visado de estudios.
+                  </p>
                 </div>
+                <div className="mt-4 p-4 rounded-xl bg-slate-800 text-white flex justify-between items-center">
+                  <span className="text-sm font-medium opacity-80">Meses de estancia cubiertos:</span>
+                  <span className="text-xl font-bold font-outfit">
+                    {new Intl.NumberFormat('es-ES', { maximumFractionDigits: 1 }).format(mesesCubiertos)} {mesesCubiertos === 1 ? 'mes' : 'meses'}
+                  </span>
+                </div>
+                {!cumpleIPREM && (
+                  <p className="text-xs text-amber-700 mt-3 font-medium bg-amber-100 rounded-xl px-3 py-2">
+                    Te faltan {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(IPREM_MENSUAL_EUR - ahorrosEur)} para alcanzar el mínimo mensual requerido para el visado de estudios.
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -205,7 +199,7 @@ export default function InternationalMode() {
               <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block mb-2">Tu país</label>
               <div className="flex flex-wrap gap-2">
                 {paises.map((p) => (
-                  <button key={p} onClick={() => setPaisFiltro(p)} className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${paisFiltro === p ? 'bg-blue-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                  <button key={p} onClick={() => setPaisFiltro(p)} className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2 ${paisFiltro === p ? 'bg-blue-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                     {p}
                   </button>
                 ))}
@@ -219,11 +213,11 @@ export default function InternationalMode() {
                   <p className="font-extrabold text-gray-900 text-sm mb-1">{c.ciudad}</p>
                   <p className="text-xs text-slate-500 mb-3">Consulado General de España en {c.ciudad}</p>
                   <div className="flex gap-2">
-                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-white hover:border-blue-200 transition-all">
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-white hover:border-blue-200 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2">
                       <ExternalLink className="w-3.5 h-3.5" /> Web
                     </a>
-                    <a href={c.cita} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-blue-900 text-white rounded-xl text-xs font-bold hover:bg-blue-800 transition-colors">
-                      <ArrowRight className="w-3.5 h-3.5" /> Pedir Cita
+                    <a href={c.cita} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-blue-900 text-white rounded-xl text-xs font-bold hover:bg-blue-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2">
+                      <Calendar className="w-3.5 h-3.5" /> Pedir Cita
                     </a>
                   </div>
                 </div>

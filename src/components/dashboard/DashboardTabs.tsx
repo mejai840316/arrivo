@@ -14,7 +14,7 @@ export default function DashboardTabs({ children }: { children: React.ReactNode 
       <div className="flex p-1 bg-white border border-slate-200 rounded-2xl w-fit shadow-sm">
         <button
           onClick={() => setActiveTab('resumen')}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 ${
             activeTab === 'resumen'
               ? 'bg-blue-900 text-white shadow-md'
               : 'text-slate-500 hover:text-blue-900 hover:bg-slate-50'
@@ -25,7 +25,7 @@ export default function DashboardTabs({ children }: { children: React.ReactNode 
         </button>
         <button
           onClick={() => setActiveTab('recomendador')}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 ${
             activeTab === 'recomendador'
               ? 'bg-blue-900 text-white shadow-md'
               : 'text-slate-500 hover:text-blue-900 hover:bg-slate-50'
@@ -36,7 +36,7 @@ export default function DashboardTabs({ children }: { children: React.ReactNode 
         </button>
         <button
           onClick={() => setActiveTab('internacional')}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 ${
             activeTab === 'internacional'
               ? 'bg-blue-900 text-white shadow-md'
               : 'text-slate-500 hover:text-blue-900 hover:bg-slate-50'
