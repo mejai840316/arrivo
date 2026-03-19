@@ -80,6 +80,25 @@ export default async function DashboardPage() {
         </div>
       </div>
 
+      {/* Acceso Directo al Generador de Empadronamiento (Fase 2 PDFs) */}
+      <div className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-3xl p-6 sm:p-8 shadow-lg relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
+         <div className="absolute top-0 right-0 p-8 opacity-5">
+            <svg className="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+         </div>
+         <div className="relative z-10">
+           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-800/50 border border-blue-400/30 text-blue-200 text-[10px] font-bold uppercase tracking-widest rounded-full mb-3">
+             Paso Obligatorio
+           </div>
+           <h2 className="text-2xl font-extrabold text-white font-outfit mb-2">Módulo de Empadronamiento Inteligente</h2>
+           <p className="text-blue-100/80 font-medium max-w-xl text-sm leading-relaxed">
+             Sin padrón no hay arraigo. Usa nuestro asistente para generar la solicitud oficial basada en el BOE, incluso si vives en habitación sin contrato, y activa el tracker del Silencio Administrativo.
+           </p>
+         </div>
+         <Link href="/dashboard/padron" className="relative z-10 shrink-0 bg-white text-blue-900 px-6 py-3.5 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+           Abrir Asistente
+         </Link>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Procedures */}
         <div className="lg:col-span-2 space-y-6">
