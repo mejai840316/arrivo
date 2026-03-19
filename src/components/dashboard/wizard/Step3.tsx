@@ -51,14 +51,26 @@ const Step3 = () => {
         updated_at: new Date().toISOString(),
       };
 
-      // Intentar UPDATE primero, si no existe hacemos INSERT
-      const { error: updateError } = await supabase
+      // Verificar explícitamente si el perfil ya existe para el usuario
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .update(profilePayload)
-        .eq('id', user.id);
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
 
-      if (updateError) {
-        // Si el update falla (no existe la fila), intentar INSERT
+      if (existingProfile) {
+        // Si existe, actualizamos
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update(profilePayload)
+          .eq('id', user.id);
+
+        if (updateError) {
+          console.error('Update error:', updateError);
+          throw new Error(updateError.message);
+        }
+      } else {
+        // Si NO existe, insertamos (esto es lo que estaba fallando al ser invisible el error de update)
         const { error: insertError } = await supabase
           .from('profiles')
           .insert(profilePayload);
