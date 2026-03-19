@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS tramites (
   permite_antecedentes BOOLEAN DEFAULT false,
   tiempo_resolucion TEXT,
   descripcion TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
 );
 
 -- 2. Tabla de Documentos requeridos por trámite
@@ -53,6 +53,9 @@ CREATE TABLE IF NOT EXISTS perfiles_usuario (
   -- Trámite activo
   tramite_activo UUID REFERENCES tramites(id),
   puntos_viabilidad INT DEFAULT 0,
+  -- Padrón Tracker
+  fecha_solicitud_padron DATE,
+  notificacion_90_dias_enviada BOOLEAN DEFAULT FALSE,
   -- Timestamps
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -128,9 +131,15 @@ ALTER TABLE documentos_requeridos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE perfiles_usuario ENABLE ROW LEVEL SECURITY;
 
 -- Tramites: lectura pública, escritura solo para admins
+DROP POLICY IF EXISTS "Todos pueden ver tramites" ON tramites;
 CREATE POLICY "Todos pueden ver tramites" ON tramites FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Todos pueden ver documentos" ON documentos_requeridos;
 CREATE POLICY "Todos pueden ver documentos" ON documentos_requeridos FOR SELECT USING (true);
 
 -- Perfiles: solo el propio usuario puede ver/editar sus datos
+DROP POLICY IF EXISTS "Usuario ve su propio perfil" ON perfiles_usuario;
 CREATE POLICY "Usuario ve su propio perfil" ON perfiles_usuario FOR SELECT USING (auth.uid() = id);
+
+DROP POLICY IF EXISTS "Usuario actualiza su propio perfil" ON perfiles_usuario;
 CREATE POLICY "Usuario actualiza su propio perfil" ON perfiles_usuario FOR ALL USING (auth.uid() = id);

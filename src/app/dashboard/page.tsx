@@ -5,6 +5,7 @@ import { PROCEDURES_MOCK } from '@/lib/mocks';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import DashboardTabs from '@/components/dashboard/DashboardTabs';
+import PadronTrackerWidget from '@/components/dashboard/PadronTrackerWidget';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -133,6 +134,7 @@ export default async function DashboardPage() {
 
         {/* Right Column: Alerts & AI Info */}
         <div className="space-y-8">
+           <PadronTrackerWidget />
            <LegalAlerts />
            
            {/* Direct AI Help Box */}
