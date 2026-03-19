@@ -7,56 +7,74 @@ import * as z from 'zod';
 import { useProfileWizardStore } from '@/store/useProfileWizardStore';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { Phone, MapPin, CheckCircle, Loader2 } from 'lucide-react';
+import { MapPin, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
 
 const step3Schema = z.object({
-  phone: z.string().min(9, 'Número de teléfono inválido'),
+  phone: z.string().min(6, 'Número de teléfono inválido'),
   address: z.string().min(5, 'Dirección de empadronamiento incompleta'),
 });
 
 type Step3Data = z.infer<typeof step3Schema>;
 
 const Step3 = () => {
-  const { formData, updateFormData, setStep } = useProfileWizardStore();
+  const { formData, setStep } = useProfileWizardStore();
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
   const { register, handleSubmit, formState: { errors } } = useForm<Step3Data>({
     resolver: zodResolver(step3Schema),
     defaultValues: {
-      phone: formData.phone,
-      address: formData.address,
+      phone: formData.phone || '',
+      address: formData.address || '',
     }
   });
 
   const onSubmit = async (data: Step3Data) => {
     setLoading(true);
-    const finalData = { ...formData, ...data };
-    
+    setErrorMsg(null);
+
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Sesión de usuario no válida');
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) throw new Error('Sesión no válida. Por favor vuelve a iniciar sesión.');
 
-      const { error } = await supabase
+      const profilePayload = {
+        id: user.id,
+        full_name: formData.fullName || null,
+        birth_date: formData.birthDate || null,
+        country_origin: formData.country || null,
+        nie: formData.nie || null,
+        passport_number: formData.passport || null,
+        phone: data.phone,
+        address: data.address,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Intentar UPDATE primero, si no existe hacemos INSERT
+      const { error: updateError } = await supabase
         .from('profiles')
-        .upsert({
-          id: user.id,
-          full_name: finalData.fullName,
-          birth_date: finalData.birthDate,
-          country_origin: finalData.country,
-          nie: finalData.nie,
-          passport_number: finalData.passport,
-          phone: finalData.phone,
-          address: finalData.address,
-           updated_at: new Date().toISOString(),
-        });
+        .update(profilePayload)
+        .eq('id', user.id);
 
-      if (error) throw error;
-      router.refresh(); // Gatilla el re-render para mostrar el Dashboard
+      if (updateError) {
+        // Si el update falla (no existe la fila), intentar INSERT
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert(profilePayload);
+
+        if (insertError) {
+          console.error('Insert error:', insertError);
+          throw new Error(insertError.message);
+        }
+      }
+
+      // Redirigir al dashboard con recarga completa para que el server component se re-evalúe
+      window.location.href = '/dashboard';
+
     } catch (e: any) {
-      alert(`Error institucional: ${e.message}`);
-    } finally {
+      console.error('Profile save error:', e);
+      setErrorMsg(e.message || 'Error desconocido al guardar el perfil.');
       setLoading(false);
     }
   };
@@ -71,18 +89,31 @@ const Step3 = () => {
         </div>
       </div>
 
+      {errorMsg && (
+        <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-bold text-red-700">Error al guardar</p>
+            <p className="text-xs text-red-600 mt-0.5">{errorMsg}</p>
+            <p className="text-xs text-red-500 mt-2">
+              Si el error persiste, puede ser necesario ejecutar el SQL de configuración en Supabase.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="space-y-6">
         <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Teléfono móvil</label>
-            <div className="relative">
-                <span className="absolute left-4 top-3.5 text-slate-400 text-sm font-bold">+34</span>
-                <input
-                    {...register('phone')}
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none transition-all"
-                    placeholder="600 000 000"
-                />
-            </div>
-            {errors.phone && <p className="text-red-500 text-xs font-medium">{errors.phone.message}</p>}
+          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Teléfono móvil</label>
+          <div className="relative">
+            <span className="absolute left-4 top-3.5 text-slate-400 text-sm font-bold">+34</span>
+            <input
+              {...register('phone')}
+              className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none transition-all"
+              placeholder="600 000 000"
+            />
+          </div>
+          {errors.phone && <p className="text-red-500 text-xs font-medium">{errors.phone.message}</p>}
         </div>
 
         <div className="space-y-2">
@@ -115,10 +146,13 @@ const Step3 = () => {
         <button
           type="submit"
           disabled={loading}
-          className="flex-[2] py-4 bg-emerald-600 text-white font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-900/10 transition-all flex items-center justify-center gap-2"
+          className="flex-[2] py-4 bg-emerald-600 text-white font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-900/10 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {loading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Guardando...
+            </>
           ) : (
             'Finalizar perfil institucional'
           )}
