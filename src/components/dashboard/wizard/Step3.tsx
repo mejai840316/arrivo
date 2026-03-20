@@ -92,81 +92,72 @@ const Step3 = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center gap-3 mb-4">
-        <MapPin className="w-8 h-8 text-blue-900" />
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">Ubicación y Contacto</h2>
-          <p className="text-sm text-slate-500 italic">Obligatorio para recibir notificaciones gubernamentales.</p>
-        </div>
-      </div>
-
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {errorMsg && (
-        <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
-          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-4 p-5 bg-red-50 border border-red-100 rounded-2xl">
+          <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-bold text-red-700">Error al guardar</p>
-            <p className="text-xs text-red-600 mt-0.5">{errorMsg}</p>
-            <p className="text-xs text-red-500 mt-2">
-              Si el error persiste, puede ser necesario ejecutar el SQL de configuración en Supabase.
-            </p>
+            <p className="text-xs font-bold text-red-900 uppercase tracking-widest mb-1">Error de Sistema</p>
+            <p className="text-xs text-red-700 leading-relaxed">{errorMsg}</p>
           </div>
         </div>
       )}
 
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Teléfono móvil</label>
-          <div className="relative">
-            <span className="absolute left-4 top-3.5 text-slate-400 text-sm font-bold">+34</span>
+      <div className="grid grid-cols-1 gap-10">
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Teléfono (+34)</label>
+          <div className="relative group">
+            <span className="absolute left-5 top-[18px] text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 transition-colors group-focus-within:text-blue-900 group-focus-within:border-blue-900">+34</span>
             <input
               {...register('phone')}
-              className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none transition-all"
+              className="w-full pl-20 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow font-medium text-slate-800"
               placeholder="600 000 000"
             />
           </div>
-          {errors.phone && <p className="text-red-500 text-xs font-medium">{errors.phone.message}</p>}
+          {errors.phone && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.phone.message}</p>}
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Dirección de Empadronamiento</label>
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Dirección Institucional (Empadronamiento)</label>
           <input
             {...register('address')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none transition-all"
+            className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow placeholder:text-slate-300 font-medium text-slate-800"
             placeholder="Calle, número, piso y CP"
           />
-          {errors.address && <p className="text-red-500 text-xs font-medium">{errors.address.message}</p>}
+          {errors.address && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.address.message}</p>}
         </div>
       </div>
 
-      <div className="p-4 rounded-xl bg-blue-50 border border-blue-100 flex gap-3 items-start">
-        <CheckCircle className="w-5 h-5 text-blue-900 mt-0.5" />
-        <p className="text-xs text-blue-900 leading-relaxed font-medium">
-          Al finalizar, confirmo que todos mis datos son veraces y coinciden con mis documentos oficiales de identidad.
+      <div className="p-5 border border-blue-50 bg-blue-50/30 rounded-2xl flex gap-4 items-start">
+        <div className="w-8 h-8 rounded-full bg-blue-900 text-white flex items-center justify-center shrink-0">
+           <CheckCircle className="w-4 h-4" />
+        </div>
+        <p className="text-xs text-slate-600 leading-relaxed font-medium">
+          Confirmo que los datos proporcionados son verídicos. Esta información será utilizada para la generación de borradores oficiales y diagnósticos de viabilidad legal.
         </p>
       </div>
 
-      <div className="flex gap-4 pt-4 border-t border-slate-100">
+      <div className="flex items-center justify-between pt-10 border-t border-slate-100">
         <button
           type="button"
           onClick={() => setStep(2)}
-          className="flex-1 py-4 text-blue-900 font-bold uppercase text-xs tracking-widest hover:bg-slate-50 rounded-xl transition-all"
+          className="text-slate-400 font-bold uppercase text-[11px] tracking-[0.2em] hover:text-blue-900 transition-colors disabled:opacity-30"
           disabled={loading}
         >
-          Atrás
+          Anterior
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="flex-[2] py-4 bg-emerald-600 text-white font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-900/10 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="px-10 py-5 bg-slate-900 text-white font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-slate-900/10 flex items-center justify-center gap-3 disabled:opacity-50"
         >
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              Guardando...
+              Finalizando…
             </>
           ) : (
-            'Finalizar perfil institucional'
+            'Activar Perfil Arrivo'
           )}
         </button>
       </div>

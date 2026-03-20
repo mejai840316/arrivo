@@ -1,6 +1,6 @@
 # Arrivo - LegalTech Inteligente para Extranjería en España
 
-Arrivo es una plataforma moderna diseñada para simplificar y automatizar los trámites de extranjería en España (NIE, TIE, Arraigos, Nacionalidad). Utiliza inteligencia artificial (Gemini) para la vigilancia legal del BOE y un asistente personalizado para el usuario.
+Arrivo es una plataforma moderna diseñada para simplificar y automatizar los trámites de extranjería en España (NIE, TIE, Arraigos, Nacionalidad). Utiliza inteligencia artificial (Gemini) para la vigilancia legal del BOE y un asistente personalizado para el usuario que incluye **Estrategias de Optimización de Costes (Prixline 2k/8k)** y **Defensa Administrativa (Recursos/Subsanaciones)**.
 
 ## 🚀 Tecnologías Principales
 - **Framework**: Next.js 15 (App Router)
@@ -17,7 +17,7 @@ Arrivo es una plataforma moderna diseñada para simplificar y automatizar los tr
 - `/supabase_setup.sql`: Esquema de base de datos y búsqueda semántica.
 
 ## ⚖️ Marco Legal
-Este proyecto se desarrolla bajo el cumplimiento de la **RGPD** y sigue las directrices del **Reglamento de Extranjería (RD 557/2011)**.
+Este proyecto se desarrolla bajo el cumplimiento de la **RGPD** y sigue las directrices del **Reglamento de Extranjería (2025)**.
 
 ## 🔨 Configuración Local
 1. `npm install`

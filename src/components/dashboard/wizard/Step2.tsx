@@ -35,71 +35,60 @@ const Step2 = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center gap-3 mb-4">
-        <Shield className="w-8 h-8 text-blue-900" />
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">Identificación Legal</h2>
-          <p className="text-sm text-slate-500 italic">Tus datos se cifran con estándar bancario AES-256.</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">NIE / TIE (Opcional)</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Número NIE / TIE</label>
           <input
             {...register('nie')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all cursor-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2"
+            className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow placeholder:text-slate-300 font-medium text-slate-800"
             placeholder="Ej: Y1234567Z (Si lo tienes)"
           />
-          {errors.nie && <p className="text-red-500 text-xs font-medium">{errors.nie.message}</p>}
+          {errors.nie && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.nie.message}</p>}
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Número de Pasaporte (Opcional si usas NIE)</label>
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Número de Pasaporte</label>
           <input
             {...register('passport')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all cursor-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2"
+            className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow placeholder:text-slate-300 font-medium text-slate-800"
             placeholder="Ej: PA123456"
           />
-          {errors.passport && <p className="text-red-500 text-xs font-medium">{errors.passport.message}</p>}
+          {errors.passport && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.passport.message}</p>}
         </div>
 
-         <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Fecha de Caducidad Pasaporte</label>
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Fecha de Caducidad</label>
           <input
             type="date"
             {...register('expiryDate')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2"
+            className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow font-medium text-slate-700"
           />
-          {errors.expiryDate && <p className="text-red-500 text-xs font-medium">{errors.expiryDate.message}</p>}
+          {errors.expiryDate && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.expiryDate.message}</p>}
+        </div>
+
+        {/* Swiss Style Minimal Upload Interaction */}
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Copia de Seguridad (Opcional)</label>
+          <div className="h-[58px] border border-dashed border-slate-300 rounded-2xl flex items-center justify-center bg-slate-50/30 hover:bg-slate-50 hover:border-blue-900 transition-all cursor-pointer group">
+             <span className="text-[10px] font-bold text-slate-400 group-hover:text-blue-900 tracking-wider uppercase">Seleccionar Archivo (PDF/IMG)</span>
+          </div>
         </div>
       </div>
 
-      {/* Upload Section (Conceptual for now) */}
-      <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 group hover:border-blue-900 transition-all cursor-pointer">
-          <div className="flex flex-col items-center gap-2">
-             <div className="p-3 bg-white rounded-full shadow-sm group-hover:bg-blue-900 group-hover:text-white transition-all">
-                <Upload className="w-5 h-5" />
-             </div>
-             <p className="text-xs font-bold text-slate-600">Subir NIE Escaneado o Pasaporte</p>
-             <p className="text-[10px] text-slate-400">Soporta PDF, JPEG, PNG (MÁX 5MB)</p>
-          </div>
-      </div>
-
-      <div className="flex gap-4 pt-4 border-t border-slate-100">
+      <div className="flex items-center justify-between pt-10 border-t border-slate-100">
         <button
           type="button"
           onClick={() => setStep(1)}
-          className="flex-1 py-4 text-blue-900 font-bold uppercase text-xs tracking-widest hover:bg-slate-50 rounded-xl transition-all"
+          className="text-slate-400 font-bold uppercase text-[11px] tracking-[0.2em] hover:text-blue-900 transition-colors"
         >
-          Atrás
+          Anterior
         </button>
         <button
           type="submit"
-          className="flex-[2] py-4 bg-blue-900 text-white font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-blue-800 shadow-lg shadow-blue-900/10 transition-all font-outfit"
+          className="px-10 py-4 bg-blue-900 text-white font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl hover:bg-slate-900 transition-colors shadow-lg shadow-blue-900/10 font-outfit"
         >
-          Siguiente paso
+          Continuar al paso 3
         </button>
       </div>
     </form>

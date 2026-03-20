@@ -5,65 +5,59 @@ import { useProfileWizardStore } from '@/store/useProfileWizardStore';
 import Step1 from './wizard/Step1';
 import Step2 from './wizard/Step2';
 import Step3 from './wizard/Step3';
-import { User, Shield, CheckCircle } from 'lucide-react';
+import { Shield, CheckCircle, Bot } from 'lucide-react';
 
 const ProfileWizard = () => {
   const { step } = useProfileWizardStore();
 
   const renderCurrentStep = () => {
     switch (step) {
-      case 1:
-        return <Step1 />;
-      case 2:
-        return <Step2 />;
-      case 3:
-        return <Step3 />;
-      default:
-        return <Step1 />;
+      case 1: return <Step1 />;
+      case 2: return <Step2 />;
+      case 3: return <Step3 />;
+      default: return <Step1 />;
     }
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl shadow-blue-900/5 overflow-hidden">
-      <div className="bg-slate-50 border-b border-slate-100 p-8">
-        {/* Stepper Visual */}
-        <div className="flex items-center justify-between max-w-sm mx-auto mb-4">
-          <div className="flex flex-col items-center gap-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-              step >= 1 ? 'bg-blue-900 border-blue-900 text-white' : 'border-slate-300 text-slate-400'
-            }`}>
-              {step > 1 ? <CheckCircle className="w-5 h-5" /> : <User className="w-5 h-5" />}
-            </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Datos</span>
-          </div>
-          
-          <div className={`flex-1 h-0.5 mx-4 ${step >= 2 ? 'bg-blue-900' : 'bg-slate-200'}`} />
-          
-          <div className="flex flex-col items-center gap-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-              step >= 2 ? 'bg-blue-900 border-blue-900 text-white' : 'border-slate-300 text-slate-400'
-            }`}>
-              {step > 2 ? <CheckCircle className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
-            </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Legal</span>
-          </div>
+    <div className="bg-white rounded-[32px] border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.02)] overflow-hidden transition-all duration-500">
+      {/* Swiss Progress Bar */}
+      <div className="h-1.5 w-full bg-slate-100">
+          <div 
+            className="bg-blue-900 h-full transition-all duration-700 ease-in-out" 
+            style={{ width: `${(step / 3) * 100}%` }}
+          />
+      </div>
 
-          <div className={`flex-1 h-0.5 mx-4 ${step >= 3 ? 'bg-blue-900' : 'bg-slate-200'}`} />
-
-          <div className="flex flex-col items-center gap-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-              step >= 3 ? 'bg-blue-900 border-blue-900 text-white' : 'border-slate-300 text-slate-400'
-            }`}>
-              <Shield className="w-5 h-5" />
-            </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Finalizar</span>
+      <div className="p-10 lg:p-14">
+        <header className="mb-12 flex items-center justify-between">
+          <div className="space-y-1">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-900/40">
+              Paso {step} de 3
+            </p>
+            <h2 className="text-3xl font-extrabold font-outfit text-slate-900 tracking-tight">
+              {step === 1 && "Información Personal"}
+              {step === 2 && "Situación Legal"}
+              {step === 3 && "Verificación Final"}
+            </h2>
           </div>
+          <div className="hidden sm:flex transition-opacity duration-300">
+             <Bot className="w-8 h-8 text-blue-900/10" />
+          </div>
+        </header>
+
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+          {renderCurrentStep()}
         </div>
       </div>
-      
-      <div className="p-8 lg:p-12">
-        {renderCurrentStep()}
-      </div>
+
+      <footer className="px-10 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+        <div className="flex items-center gap-2 group cursor-help">
+           <Shield className="w-3 h-3 text-emerald-500" />
+           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Protección de Datos Activa</span>
+        </div>
+        <p className="text-[9px] font-bold uppercase tracking-widest text-slate-300">© 2026 Arrivo Government Stack</p>
+      </footer>
     </div>
   );
 };

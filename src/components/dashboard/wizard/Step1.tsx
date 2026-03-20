@@ -32,53 +32,47 @@ const Step1 = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center gap-3 mb-4">
-        <User className="w-8 h-8 text-blue-900" />
-        <div>
-          <h2 className="text-xl font-bold text-slate-900 font-outfit">Datos Personales</h2>
-          <p className="text-sm text-slate-500 font-medium">Información institucional del solicitante.</p>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Nombre Completo (Como aparece en pasaporte)</label>
-        <input
-          {...register('fullName')}
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all shadow-sm"
-          placeholder="Nombre y Apellidos"
-        />
-        {errors.fullName && <p className="text-red-500 text-xs font-medium">{errors.fullName.message}</p>}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Fecha de Nacimiento</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="grid grid-cols-1 gap-8">
+        <div className="space-y-3">
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Nombre Completo</label>
           <input
-            type="date"
-            {...register('birthDate')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none transition-all"
+            {...register('fullName')}
+            className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:border-transparent outline-none transition-shadow placeholder:text-slate-300 font-medium text-slate-800"
+            placeholder="Juan Pérez García"
           />
-          {errors.birthDate && <p className="text-red-500 text-xs font-medium">{errors.birthDate.message}</p>}
+          {errors.fullName && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.fullName.message}</p>}
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Nacionalidad Actual</label>
-          <input
-            {...register('country')}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none transition-all"
-            placeholder="Ej: Colombia"
-          />
-          {errors.country && <p className="text-red-500 text-xs font-medium">{errors.country.message}</p>}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-3">
+            <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">Fecha de Nacimiento</label>
+            <input
+              type="date"
+              {...register('birthDate')}
+              className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow font-medium text-slate-700"
+            />
+            {errors.birthDate && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.birthDate.message}</p>}
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400">País de Origen</label>
+            <input
+              {...register('country')}
+              className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus-visible:ring-2 focus-visible:ring-blue-900 outline-none transition-shadow placeholder:text-slate-300 font-medium text-slate-800"
+              placeholder="Colombia"
+            />
+            {errors.country && <p className="text-red-600 text-[10px] font-bold uppercase tracking-wider">{errors.country.message}</p>}
+          </div>
         </div>
       </div>
 
-      <div className="pt-4 border-t border-slate-100">
+      <div className="pt-8 border-t border-slate-100 flex justify-end">
         <button
           type="submit"
-          className="w-full py-4 bg-blue-900 text-white font-black uppercase text-xs tracking-widest rounded-xl hover:bg-blue-800 shadow-xl shadow-blue-900/10 transition-all font-outfit"
+          className="px-10 py-4 bg-slate-900 text-white font-bold uppercase text-[11px] tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-colors shadow-lg shadow-slate-900/10 font-outfit"
         >
-          Siguiente paso
+          Continuar al paso 2
         </button>
       </div>
     </form>

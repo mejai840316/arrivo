@@ -43,19 +43,29 @@ Este documento resume los hitos técnicos y el estado de salud del proyecto Arri
 - **Tecnología**: Tasas de cambio estáticas (actualizable con API), datos de consulados por país.
 - **Resultado**: `InternationalMode.tsx` con conversión de moneda local a EUR y comparativa IPREM en tiempo real.
 
-## 🔬 Auditoría de Estado Técnico (19 Marzo 2026)
+### Hito 6: Control Proactivo de Expediente (Dashboard v2)
+- **Logro**: Implementación de Radar de Plazos Críticos (30 días), Seguimiento de Registro (REC) y Manual de Subsanación.
+- **Tecnología**: Widgets dinámicos con cálculos temporales basados en Ley 39/2015.
+- **Resultado**: El usuario ya no solo guarda papeles, sino que es alertado antes de que venzan sus plazos legales.
+
+### Hito 7: Estrategia de Solvencia Prixline (2k/8k)
+- **Logro**: Motor de optimización de IPREM basado en gastos de vivienda prepagados.
+- **Tecnología**: Calculadora dinámica con generación de Certificados de Alojamiento y Transferencias de Prueba.
+- **Resultado**: Capacidad legal para reducir la exigencia de medios económicos al 50% ante el Cónsul/Extranjería.
+
+## 🔬 Auditoría de Estado Técnico (20 Marzo 2026)
 
 | Módulo | Estado | Salud | Observaciones |
 | :--- | :--- | :--- | :--- |
-| Auth & RLS | ✅ Operativo | 100% | Login con icono ver/ocultar contraseña. Usuario verificado en Supabase. |
-| DB Schemas | ✅ Estable | 95% | Tablas `tramites`, `documentos_requeridos`, `perfiles_usuario` creadas. SQL listo para ejecutar. |
-| AI Motor | ⚠️ Pruebas | 80% | Requiere ajuste de filtros semánticos. |
-| Storage | ✅ Configurado | 100% | Cubo `user_documents` listo con RLS. |
-| ProfileWizard | ✅ Corregido | 90% | Fix botón Step3: update+insert en lugar de upsert, errores visibles en pantalla. |
-| Motor Recomendación | ✅ Creado | 85% | Componente listo, pendiente integrar en dashboard/page.tsx. |
-| International Mode | ✅ Creado | 85% | Currency converter + Consulados + Checklist. Pendiente integrar. |
-| Vercel Deploy | ✅ Operativo | 100% | Fix 404: vercel.json con framework=nextjs. Rama `main` como producción. |
-| Forms PDF | ⏳ Pendiente | 0% | Fase 2 de implementación. |
+| Auth & RLS | ✅ Operativo | 100% | Login verificado y políticas RLS activas. |
+| DB Schemas | ✅ Estable | 98% | Tablas de conocimiento, trámites y perfiles sincronizadas. |
+| AI Motor | ✅ Operativo | 100% | Llama 3.1 70B (Groq) / Ollama. RAG Híbrido (FAQ + BOE). |
+| Storage / Vault | ✅ Implementado | 95% | Módulo Expediente Digital con estados de validación. |
+| ProfileWizard | ✅ Premium | 90% | Diseño suizo minimalista y flujo corregido. |
+| Forms PDF | ✅ Pro | 100% | Generación local avanzada para EX-01 y EX-10. |
+| Legal Toolbox | ✅ Sincronizado | 100% | 7 Módulos funcionales (Recursos, Subsanar, Banca, Nacionalidad). |
+| Control Radar | ✅ Crítico | 100% | Vigilancia activa de plazos de 30 días mediante widgets. |
+| Prixline Engine| ✅ Estratégico | 100% | Optimización de solvencia 2k vs 8k integrada. |
 
 ## 🛡️ Auditoría de Seguridad (SSDL)
 1. **Inyección SQL**: Prevenida mediante el uso exclusivo de `PostgREST (Supabase JS)`.

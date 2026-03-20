@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LayoutDashboard, Compass, Globe2, UserCircle } from 'lucide-react';
 import RecomendadorWizard from './RecomendadorWizard';
 import InternationalMode from './InternationalMode';
 import ProfileWizard from './ProfileWizard';
+import FloatingAIWidget from './FloatingAIWidget';
+import AsistentesGrid from './AsistentesGrid';
+import { LayoutDashboard, Compass, Globe2, UserCircle, Bot } from 'lucide-react';
 
 export default function DashboardTabs({ children, isProfileComplete }: { children: React.ReactNode, isProfileComplete?: boolean }) {
   const [activeTab, setActiveTab] = useState(isProfileComplete ? 'resumen' : 'perfil');
@@ -23,6 +25,17 @@ export default function DashboardTabs({ children, isProfileComplete }: { childre
         >
           <LayoutDashboard className="w-4 h-4" />
           Mi Expediente
+        </button>
+        <button
+          onClick={() => setActiveTab('asistentes')}
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 ${
+            activeTab === 'asistentes'
+              ? 'bg-blue-900 text-white shadow-md'
+              : 'text-slate-500 hover:text-blue-900 hover:bg-slate-50'
+          }`}
+        >
+          <Bot className="w-4 h-4" />
+          Asistentes IA
         </button>
         <button
           onClick={() => setActiveTab('recomendador')}
@@ -66,6 +79,16 @@ export default function DashboardTabs({ children, isProfileComplete }: { childre
             {children}
           </div>
         )}
+
+        {activeTab === 'asistentes' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto py-4">
+            <div className="mb-8">
+               <h2 className="text-2xl font-extrabold text-blue-900 font-outfit mb-2">Ecosistema de Asistentes IA</h2>
+               <p className="text-slate-500 font-medium">Herramientas especializadas para cada fase de tu proceso migratorio.</p>
+            </div>
+            <AsistentesGrid />
+          </div>
+        )}
         
         {activeTab === 'recomendador' && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-4xl mx-auto">
@@ -85,6 +108,8 @@ export default function DashboardTabs({ children, isProfileComplete }: { childre
           </div>
         )}
       </div>
+
+      <FloatingAIWidget />
     </div>
   );
 }

@@ -6,6 +6,15 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import DashboardTabs from '@/components/dashboard/DashboardTabs';
 import PadronTrackerWidget from '@/components/dashboard/PadronTrackerWidget';
+import { FileText, CreditCard, Landmark } from 'lucide-react';
+import LegalToolbox from '@/components/dashboard/LegalToolbox';
+import AdminMonitoring from '@/components/dashboard/AdminMonitoring';
+import AdminChangeProposal from '@/components/dashboard/AdminChangeProposal';
+import OfficialResources from '@/components/dashboard/OfficialResources';
+import SolvenciaStatusWidget from '@/components/dashboard/SolvenciaStatusWidget';
+import DeadlineRadarWidget from '@/components/dashboard/DeadlineRadarWidget';
+import CorrectionManual from '@/components/dashboard/CorrectionManual';
+import SubmissionTrackerWidget from '@/components/dashboard/SubmissionTrackerWidget';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -47,6 +56,20 @@ export default async function DashboardPage() {
         </div>
         <div className="flex gap-3">
           <Link
+            href="/dashboard/tasas"
+            className="px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 rounded-xl text-xs font-bold uppercase tracking-wider hover:border-slate-800 hover:text-slate-800 transition-all flex items-center gap-2"
+          >
+            <CreditCard className="w-4 h-4" />
+            Tasas 790
+          </Link>
+          <Link
+            href="/dashboard/formularios"
+            className="px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 rounded-xl text-xs font-bold uppercase tracking-wider hover:border-slate-800 hover:text-slate-800 transition-all flex items-center gap-2"
+          >
+            <FileText className="w-4 h-4" />
+            Formularios PDF
+          </Link>
+          <Link
             href="/dashboard/nuevo"
             className="px-6 py-3 bg-blue-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg hover:bg-blue-800 transition-all flex items-center gap-2"
           >
@@ -55,9 +78,12 @@ export default async function DashboardPage() {
         </div>
       </header>
 
+      <AdminMonitoring />
+      <AdminChangeProposal />
+
       <DashboardTabs isProfileComplete={isProfileComplete}>
         {/* Stats / Status Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-blue-600">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Expedientes Activos</p>
           <div className="flex items-baseline gap-2">
@@ -72,13 +98,24 @@ export default async function DashboardPage() {
             <span className="text-xs text-amber-600 font-medium tracking-tight italic">Acción requerida</span>
           </div>
         </div>
-        <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-emerald-500">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Alertas Legales</p>
-          <div className="flex items-baseline gap-2">
-            <p className="text-3xl font-bold text-emerald-600">NEW</p>
-            <span className="text-xs text-slate-500 font-medium tracking-tight">Vigilancia activa</span>
-          </div>
-        </div>
+        {/* Radar de Plazos Críticos */}
+        <DeadlineRadarWidget 
+          notificationDate={profile?.denial_date || new Date(Date.now() - 25 * 86400000).toISOString() /* Simulación 25 días pasados */} 
+          daysLimit={30}
+        />
+
+        {/* Prixline Solvencia Widget */}
+        <SolvenciaStatusWidget totalRequired={2300} currentSaved={1200} />
+      </div>
+
+      {/* Control Proactivo de Expediente */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+         <div className="lg:col-span-2">
+            <CorrectionManual />
+         </div>
+         <div className="lg:col-span-1">
+            <SubmissionTrackerWidget initialStatus="subsanado" />
+         </div>
       </div>
 
       {/* Acceso Directo al Generador de Empadronamiento (Fase 2 PDFs) */}
@@ -99,6 +136,17 @@ export default async function DashboardPage() {
            Abrir Asistente
          </Link>
       </div>
+
+      {/* Centro de Herramientas Jurídicas (Módulo Diagnóstico / Plazos / Recursos) */}
+      <section className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+         <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-extrabold text-blue-900 font-outfit">Centro de Herramientas Jurídicas</h2>
+              <p className="text-slate-500 font-medium text-sm">Diagnóstico inteligente, checklists de documentación y cálculo de plazos legales.</p>
+            </div>
+         </div>
+         <LegalToolbox profile={profile} />
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Procedures */}
@@ -134,9 +182,6 @@ export default async function DashboardPage() {
 
         {/* Right Column: Alerts & AI Info */}
         <div className="space-y-8">
-           <PadronTrackerWidget />
-           <LegalAlerts />
-           
            {/* Direct AI Help Box */}
            <div className="p-6 bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl text-white shadow-xl shadow-blue-900/10">
               <h3 className="font-bold mb-2 font-outfit">Asistente Arrivo IA</h3>
@@ -150,8 +195,15 @@ export default async function DashboardPage() {
                 Explorar Base de Conocimiento
               </Link>
            </div>
+           
+           <PadronTrackerWidget />
+           <LegalAlerts />
         </div>
       </div>
+      <div className="pt-10">
+         <OfficialResources />
+      </div>
+      
       </DashboardTabs>
 
       {/* Legal Disclaimer */}

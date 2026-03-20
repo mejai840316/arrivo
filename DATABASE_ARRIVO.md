@@ -36,8 +36,13 @@ Almacena preguntas y respuestas extraídas del chat, y sus palabras clave para u
 - `respuesta`: TEXT.
 - `categoria`: TEXT (ej. Arraigo, Asilo, Estancia).
 - `palabras_clave`: TEXT[] (Array de tags).
-- `embedding`: VECTOR(1536) (Representación vectorial para búsquedas RAG futuras).
+- `embedding`: VECTOR(768) (Representación numérica de **Gemini text-embedding-004** para búsquedas RAG futuras).
 - `created_at` / `updated_at`: TIMESTAMP WITH TIME ZONE.
+
+## 🔍 Funciones Especiales (Búsqueda Semántica RAG)
+El motor principal del bot o buscador se nutre de estas dos funciones PL/pgSQL:
+1. `match_legal_knowledge(query_embedding, match_threshold, match_count)`: Encuentra las leyes (BOE) más relevantes.
+2. `match_conocimiento_tramites(query_embedding, match_threshold, match_count)`: Encuentra preguntas/respuestas de la comunidad más relevantes.
 
 ### 3. Tabla: `procedures` (Trámites)
 Registro de expedientes de usuario.
