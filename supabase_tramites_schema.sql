@@ -61,6 +61,21 @@ CREATE TABLE IF NOT EXISTS perfiles_usuario (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Habilitar extensión pgvector para búquedas semánticas (RAG)
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- 4. Tabla de Conocimiento de Trámites (Knowledge Base / FAQ AI)
+CREATE TABLE IF NOT EXISTS conocimiento_tramites (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  pregunta TEXT NOT NULL,
+  respuesta TEXT NOT NULL,
+  categoria TEXT,
+  palabras_clave TEXT[],    -- Array de tags extraídos
+  embedding vector(1536),   -- Para integración futura con OpenAI embeddings
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
 -- ================================================
 -- DATOS: Catálogo completo de trámites 2026
 -- ================================================

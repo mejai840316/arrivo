@@ -13,7 +13,7 @@ Arrivo es un SaaS LegalTech diseñado específicamente para trámites de extranj
 | **Generación de Documentos** | jsPDF | (Fase 2) Creación de PDFs legales dinámicos (Empadronamiento, Silencio Positivo) en el cliente. |
 | **Backend & Autenticación** | Supabase (Auth, RLS, Database) | Gestión de usuarios, perfiles, catálogo de trámites y expedientes en PostgreSQL. |
 | **Tareas Programadas** | Next.js Route Handlers (`/api/cron/*`) | Motor de revisión (ej. Padrón tracker, alertas de 90 días). |
-| **Motor Semántico & NLP** | Google Gemini (text-embedding-004), Scraping Script Node.js | Ingesta del BOE y en Fase 4 vectorización semántica de leyes. |
+| **Motor Semántico & NLP** | Scripts (Python/Node) & Supabase pgvector | Ingesta del BOE y análisis de chats de Telegram/WhatsApp (Q&A) para poblar la base de conocimiento (`conocimiento_tramites`) para RAG (Fase 4). |
 
 ## 2. Diagrama de Módulos (Core Features)
 

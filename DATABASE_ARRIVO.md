@@ -29,6 +29,16 @@ Almacena el conocimiento legal extraído del BOE y vectorizado con Gemini.
 - `embedding`: VECTOR(768) (Representación numérica de **Gemini text-embedding-004**).
 - `published_at`: TIMESTAMP WITH TIME ZONE.
 
+### 2.3 Tabla: `conocimiento_tramites` (Knowledge Base / FAQ AI)
+Almacena preguntas y respuestas extraídas del chat, y sus palabras clave para un futuro uso por el chatbot / recomendaciones.
+- `id`: UUID.
+- `pregunta`: TEXT.
+- `respuesta`: TEXT.
+- `categoria`: TEXT (ej. Arraigo, Asilo, Estancia).
+- `palabras_clave`: TEXT[] (Array de tags).
+- `embedding`: VECTOR(1536) (Representación vectorial para búsquedas RAG futuras).
+- `created_at` / `updated_at`: TIMESTAMP WITH TIME ZONE.
+
 ### 3. Tabla: `procedures` (Trámites)
 Registro de expedientes de usuario.
 - `id`: UUID.
