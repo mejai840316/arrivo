@@ -56,7 +56,7 @@ export default function PadronTrackerWidget() {
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col h-full">
+    <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col">
       <div className="bg-slate-900 px-6 py-4 flex items-center justify-between">
         <h3 className="font-extrabold text-white flex items-center gap-2">
           <CalendarIcon className="w-5 h-5 text-blue-400" />

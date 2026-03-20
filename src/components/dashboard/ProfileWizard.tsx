@@ -29,13 +29,13 @@ const ProfileWizard = () => {
           />
       </div>
 
-      <div className="p-10 lg:p-14">
+      <div className="p-6 sm:p-10 lg:p-14">
         <header className="mb-12 flex items-center justify-between">
           <div className="space-y-1">
             <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-blue-900/40">
               Paso {step} de 3
             </p>
-            <h2 className="text-3xl font-extrabold font-outfit text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold font-outfit text-slate-900 tracking-tight">
               {step === 1 && "Información Personal"}
               {step === 2 && "Situación Legal"}
               {step === 3 && "Verificación Final"}
@@ -51,7 +51,7 @@ const ProfileWizard = () => {
         </div>
       </div>
 
-      <footer className="px-10 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+      <footer className="px-6 py-4 sm:px-10 sm:py-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 group cursor-help">
            <Shield className="w-3 h-3 text-emerald-500" />
            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Protección de Datos Activa</span>

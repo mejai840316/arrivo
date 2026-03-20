@@ -53,6 +53,11 @@ Este documento resume los hitos técnicos y el estado de salud del proyecto Arri
 - **Tecnología**: Calculadora dinámica con generación de Certificados de Alojamiento y Transferencias de Prueba.
 - **Resultado**: Capacidad legal para reducir la exigencia de medios económicos al 50% ante el Cónsul/Extranjería.
 
+### Hito 8: Auditoría de Responsividad y Refactorización de Experiencia (UX)
+- **Logro**: Dashboard 100% Mobile-First con alta densidad de datos. Rediseño del layout 2/3 + 1/3.
+- **Tecnología**: Tailwind Grid, Flexbox dinámico y Modal UI (React state).
+- **Resultado**: Interfaz optimizada para móviles, tablets y escritorio. Implementación de operaciones CRUD (Editar/Eliminar) en tiempo real mediante estados locales persistentes.
+
 ## 🔬 Auditoría de Estado Técnico (20 Marzo 2026)
 
 | Módulo | Estado | Salud | Observaciones |
@@ -66,6 +71,8 @@ Este documento resume los hitos técnicos y el estado de salud del proyecto Arri
 | Legal Toolbox | ✅ Sincronizado | 100% | 7 Módulos funcionales (Recursos, Subsanar, Banca, Nacionalidad). |
 | Control Radar | ✅ Crítico | 100% | Vigilancia activa de plazos de 30 días mediante widgets. |
 | Prixline Engine| ✅ Estratégico | 100% | Optimización de solvencia 2k vs 8k integrada. |
+| Dashboard UX  | ✅ Optimizado | 100% | Responsividad total y rediseño de alta densidad (2/3 + 1/3). |
+| CRUD Expedientes | ✅ Operativo | 100% | Edición y eliminación funcional en lista de expedientes. |
 
 ## 🛡️ Auditoría de Seguridad (SSDL)
 1. **Inyección SQL**: Prevenida mediante el uso exclusivo de `PostgREST (Supabase JS)`.

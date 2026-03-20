@@ -14,7 +14,8 @@ export default function DashboardTabs({ children, isProfileComplete }: { childre
   return (
     <div className="space-y-8">
       {/* Pestañas de Navegación */}
-      <div className="flex p-1 bg-white border border-slate-200 rounded-2xl w-fit shadow-sm">
+      <div className="flex p-1 bg-white border border-slate-200 rounded-2xl w-full sm:w-fit shadow-sm overflow-x-auto scrollbar-hide">
+        <div className="flex min-w-max">
         <button
           onClick={() => setActiveTab('resumen')}
           className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 ${
@@ -70,6 +71,7 @@ export default function DashboardTabs({ children, isProfileComplete }: { childre
           <UserCircle className="w-4 h-4" />
           Mi Perfil {!isProfileComplete && <span className="w-2 h-2 rounded-full bg-red-500 ml-1 shadow-sm"></span>}
         </button>
+        </div>
       </div>
 
       {/* Contenido Dinámico */}

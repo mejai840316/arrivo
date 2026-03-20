@@ -40,7 +40,7 @@ const COMMON_REQUIREMENTS = [
 
 export default function CorrectionManual() {
   return (
-    <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-8 space-y-8 animate-in slide-in-from-bottom-8 duration-700">
+    <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-6 sm:p-8 space-y-8 animate-in slide-in-from-bottom-8 duration-700">
        <header className="flex items-center gap-3">
           <div className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center">
              <BookOpen className="w-5 h-5" />
@@ -79,7 +79,7 @@ export default function CorrectionManual() {
           ))}
        </div>
 
-       <div className="p-5 bg-indigo-900 rounded-3xl flex items-center justify-between text-white overflow-hidden relative">
+       <div className="p-5 bg-indigo-900 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between text-white overflow-hidden relative gap-4">
           <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
           <div className="relative z-10 flex items-center gap-4">
              <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">

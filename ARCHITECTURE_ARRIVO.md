@@ -21,7 +21,7 @@ Arrivo es un SaaS LegalTech diseñado específicamente para trámites de extranj
     *   Formulario por pasos (País, Llegada, Ahorros, Estudios).
     *   Guarda los datos en `perfiles_usuario` para alimentar el semáforo de viabilidad.
 2.  **Dashboard "Arraigo Pro" / "Aterriza en España":**
-    *   **Mis Expedientes:** Visualización de trámites activos y completados (con semáforos de progreso y fases).
+    *   **Mis Expedientes:** Visualización interactiva de trámites activos y completados (con semáforos de progreso y fases). Incluye operaciones CRUD (Edición y Eliminación) para la gestión dinámica del historial.
     *   **Módulo Inteligente de Empadronamiento:** Asistente conversacional para determinar el Escenario de Padrón (Inquilino vs Infravivienda) y *Generación local de PDF de solicitud oficial*.
     *   **Cronómetro de Derechos (Tracker Padrón):** Gestión reactiva del Silencio Administrativo Positivo (90 días) para reclamar empadronamientos no contestados.
     *   **Vigilancia Legal (Alertas BOE):** Sincronización diaria con RSS "Extranjería" del BOE, filtrado por Machine Learning (Fase 1 scraper_boe).

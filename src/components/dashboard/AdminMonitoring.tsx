@@ -12,7 +12,7 @@ export default function AdminMonitoring() {
   const isOutdated = daysSinceUpdate > 30;
 
   return (
-    <div className="bg-slate-900 rounded-[40px] p-10 text-white relative overflow-hidden shadow-2xl">
+    <div className="bg-slate-900 rounded-[40px] p-6 sm:p-10 text-white relative overflow-hidden shadow-2xl">
       <Eye className="absolute -right-10 -bottom-10 w-64 h-64 opacity-5" />
       
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
@@ -29,7 +29,7 @@ export default function AdminMonitoring() {
           </p>
         </div>
 
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-col items-start md:items-end gap-2">
            <div className="px-5 py-2 bg-white/5 rounded-full border border-white/10 flex items-center gap-3">
               <div className={`w-2 h-2 rounded-full ${isOutdated ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]'}`} />
               <span className="text-xs font-bold font-outfit">Sincronización Legal: {isOutdated ? 'PENDIENTE' : 'ACTIVA'}</span>

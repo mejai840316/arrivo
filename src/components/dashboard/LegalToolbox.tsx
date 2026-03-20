@@ -39,7 +39,7 @@ export default function LegalToolbox({ profile }: LegalToolboxProps) {
     
     const añosNecesarios = profile?.pais_origen === 'Iberoamérica' || profile?.pais_origen === 'Filipinas' ? 2 : 10;
     const progreso = Math.min(100, Math.round((añosResidencia / añosNecesarios) * 100));
-    const faltan = Math.max(0, (añosNecesarios - añosResidencia).toFixed(1));
+    const faltan = Math.max(0, Number((añosNecesarios - añosResidencia).toFixed(1)));
 
     return { faltan, progreso, añosNecesarios };
   };
@@ -49,7 +49,7 @@ export default function LegalToolbox({ profile }: LegalToolboxProps) {
   return (
     <div className="space-y-8">
       {/* Grid de Herramientas Premium - 6 Columnas */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
         <button 
           onClick={() => setActiveModule('checklist')}
           className={`p-4 rounded-2xl border transition-all text-left ${activeModule === 'checklist' ? 'bg-blue-900 border-blue-900' : 'bg-white border-slate-200'}`}
@@ -153,7 +153,7 @@ export default function LegalToolbox({ profile }: LegalToolboxProps) {
         {!activeModule && (
           <div className="p-16 border-4 border-dashed border-slate-50 rounded-[50px] flex flex-col items-center text-center">
              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 mb-6">
-                <Scale className="w-10 h-10" />
+                <Gavel className="w-10 h-10" />
              </div>
              <p className="font-outfit font-black text-slate-300 uppercase tracking-widest text-sm">Selecciona una herramienta estratégica</p>
           </div>

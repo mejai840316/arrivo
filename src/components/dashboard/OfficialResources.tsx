@@ -58,7 +58,7 @@ export default function OfficialResources() {
             href={res.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="group p-8 bg-white border border-slate-100 rounded-[32px] hover:border-slate-300 transition-all hover:bg-slate-50/50 flex flex-col h-full"
+            className="group p-6 sm:p-8 bg-white border border-slate-100 rounded-[32px] hover:border-slate-300 transition-all hover:bg-slate-50/50 flex flex-col h-full"
           >
             <div className="flex items-center justify-between mb-6">
                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">

@@ -47,7 +47,7 @@ export default function SubmissionTrackerWidget({ initialStatus = 'presented' })
             <p className="text-[9px] text-slate-400 font-medium italic">Vigilancia de Silencio Administrativo: **3 meses** desde 20/03/2026</p>
          </div>
 
-         <footer className="pt-4 border-t border-slate-50 flex items-center justify-between">
+         <footer className="pt-4 border-t border-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <button className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition-colors">
                 <Upload className="w-4 h-4" />
                Subir Nuevo Justificante

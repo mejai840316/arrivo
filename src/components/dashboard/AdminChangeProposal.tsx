@@ -36,7 +36,7 @@ export default function AdminChangeProposal() {
 
   return (
     <div className="mt-8 animate-in slide-in-from-right-8 duration-700">
-      <div className="bg-blue-50 border-2 border-blue-200 rounded-[32px] p-8 relative overflow-hidden group">
+      <div className="bg-blue-50 border-2 border-blue-200 rounded-[32px] p-6 sm:p-8 relative overflow-hidden group">
         <Sparkles className="absolute -right-6 -top-6 w-32 h-32 text-blue-200 opacity-20 group-hover:rotate-12 transition-transform duration-1000" />
         
         <div className="flex items-center gap-4 mb-6">
@@ -84,7 +84,7 @@ export default function AdminChangeProposal() {
           ))}
         </div>
 
-        <footer className="mt-6 pt-6 border-t border-blue-200/50 flex items-center justify-between text-[10px] font-bold text-blue-900/40 uppercase tracking-widest">
+        <footer className="mt-6 pt-6 border-t border-blue-200/50 flex flex-col sm:flex-row items-center justify-between text-[10px] font-bold text-blue-900/40 uppercase tracking-widest gap-2">
            <span>Análisis en Tiempo Real via Gemini RAG</span>
            <span>Powered by Llama 3.1 70B</span>
         </footer>
