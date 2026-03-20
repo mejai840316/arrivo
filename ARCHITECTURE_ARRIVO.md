@@ -25,7 +25,8 @@ Arrivo es un SaaS LegalTech diseñado específicamente para trámites de extranj
     *   **Módulo Inteligente de Empadronamiento:** Asistente conversacional para determinar el Escenario de Padrón (Inquilino vs Infravivienda) y *Generación local de PDF de solicitud oficial*.
     *   **Cronómetro de Derechos (Tracker Padrón):** Gestión reactiva del Silencio Administrativo Positivo (90 días) para reclamar empadronamientos no contestados.
     *   **Vigilancia Legal (Alertas BOE):** Sincronización diaria con RSS "Extranjería" del BOE, filtrado por Machine Learning (Fase 1 scraper_boe).
-    *   **Bóveda IA:** Preparación de Fase 4 (Chat Semántico para discusión con normativa vigente).icas (RAG).
+    *   **Base de Conocimiento (FAQ Comunitaria):** Nueva página `/dashboard/faq` con buscador interactivo y filtrado en base a datos de la comunidad, consumidos desde la nueva tabla `conocimiento_tramites`.
+    *   **Bóveda IA:** Preparación de Fase 4 (Chat Semántico para discusión con normativa vigente y vectorizaciones RAG).
 - **Supabase Storage**: Almacenamiento seguro de copias de NIE/Pasaporte mediante políticas RLS.
 
 ## 🛡️ Flujo de Seguridad y Privacidad

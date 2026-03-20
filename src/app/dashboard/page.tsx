@@ -146,6 +146,9 @@ export default async function DashboardPage() {
               <Link href="/dashboard/chat" className="w-full flex justify-center py-2.5 bg-white text-blue-900 rounded-lg text-xs font-extrabold uppercase tracking-widest hover:bg-blue-50 transition-colors font-outfit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 Abrir Chat Legal
               </Link>
+              <Link href="/dashboard/faq" className="mt-3 w-full flex justify-center py-2.5 bg-blue-800/50 border border-blue-400/20 text-blue-100 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-blue-800 hover:text-white transition-colors focus-visible:outline-none">
+                Explorar Base de Conocimiento
+              </Link>
            </div>
         </div>
       </div>
